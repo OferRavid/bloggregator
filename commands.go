@@ -19,5 +19,5 @@ func (c *commands) run(s *state, cmd command) error {
 	if f, exists := c.registeredCommands[cmd.Name]; exists {
 		return f(s, cmd)
 	}
-	return fmt.Errorf("the command %s wasn't registered", cmd.Name)
+	return fmt.Errorf("the command %s isn't registered", cmd.Name)
 }
