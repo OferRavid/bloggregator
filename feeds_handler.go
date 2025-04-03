@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -22,7 +21,7 @@ func handlerAgg(s *state, cmd command) error {
 
 func handlerAddFeed(s *state, cmd command) error {
 	if len(cmd.Args) != 2 {
-		return errors.New("addfeed command requires two arguments: the name of the feed and its url")
+		return fmt.Errorf("usage: %s <name> <url>", cmd.Name)
 	}
 	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
 	if err != nil {
@@ -45,5 +44,26 @@ func handlerAddFeed(s *state, cmd command) error {
 	}
 
 	fmt.Println(feed)
+	return nil
+}
+
+func handlerListFeeds(s *state, cmd command) error {
+	feeds, err := s.db.GetFeeds(context.Background())
+	if err != nil {
+		return fmt.Errorf("couldn't get feeds: %w", err)
+	}
+
+	if len(feeds) == 0 {
+		fmt.Println("No feeds found.")
+		return nil
+	}
+
+	for i, feed := range feeds {
+		username, err := s.db.GetUsername(context.Background(), feed.UserID)
+		if err != nil {
+			return err
+		}
+		fmt.Printf("Feed %d:\n - name: %s\n - url: %s\n - user: %v\n", i+1, feed.Name, feed.Url, username)
+	}
 	return nil
 }
