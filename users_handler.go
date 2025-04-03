@@ -32,7 +32,7 @@ func handlerLogin(s *state, cmd command) error {
 
 func handlerRegister(s *state, cmd command) error {
 	if len(cmd.Args) != 1 {
-		return errors.New("login command requires a single argument: username")
+		return errors.New("register command requires a single argument: username")
 	}
 
 	username := cmd.Args[0]
