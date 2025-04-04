@@ -24,6 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatal("error connecting to database")
 	}
+	defer db.Close()
 
 	dbQueries := database.New(db)
 	programState := &state{
@@ -41,6 +42,8 @@ func main() {
 	cmds.register("agg", handlerAgg)
 	cmds.register("addfeed", handlerAddFeed)
 	cmds.register("feeds", handlerListFeeds)
+	cmds.register("follow", handlerFollow)
+	cmds.register("following", handlerListFeedFollows)
 
 	args := os.Args
 	if len(args) < 2 {

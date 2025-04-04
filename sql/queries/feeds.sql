@@ -12,3 +12,6 @@ RETURNING *;
 
 -- name: GetFeeds :many
 SELECT name, url, user_id from feeds;
+
+-- name: GetFeedByUrl :one
+SELECT * from feeds where url=$1;

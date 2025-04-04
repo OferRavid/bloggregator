@@ -42,7 +42,7 @@ func handlerRegister(s *state, cmd command) error {
 	}
 
 	id := uuid.New()
-	timeNow := time.Now()
+	timeNow := time.Now().UTC()
 	user, err := s.db.CreateUser(
 		context.Background(),
 		database.CreateUserParams{
