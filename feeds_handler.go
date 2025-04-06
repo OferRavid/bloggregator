@@ -19,13 +19,9 @@ func handlerAgg(s *state, cmd command) error {
 	return nil
 }
 
-func handlerAddFeed(s *state, cmd command) error {
+func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return fmt.Errorf("usage: %s <name> <url>", cmd.Name)
-	}
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return err
 	}
 
 	feed, err := s.db.CreateFeed(
@@ -82,7 +78,7 @@ func handlerListFeeds(s *state, cmd command) error {
 	return nil
 }
 
-func handlerFollow(s *state, cmd command) error {
+func handlerFollow(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 1 {
 		return fmt.Errorf("usage: %s <feed_url>", cmd.Name)
 	}
@@ -90,11 +86,6 @@ func handlerFollow(s *state, cmd command) error {
 	feed, err := s.db.GetFeedByUrl(context.Background(), cmd.Args[0])
 	if err != nil {
 		return fmt.Errorf("failed to select feed by url: %w", err)
-	}
-
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("failed to get user - %s : %w", s.cfg.CurrentUserName, err)
 	}
 
 	feed_follow, err := s.db.CreateFeedFollow(
@@ -115,12 +106,7 @@ func handlerFollow(s *state, cmd command) error {
 	return nil
 }
 
-func handlerListFeedFollows(s *state, cmd command) error {
-	user, err := s.db.GetUser(context.Background(), s.cfg.CurrentUserName)
-	if err != nil {
-		return fmt.Errorf("failed to get user - %s : %w", s.cfg.CurrentUserName, err)
-	}
-
+func handlerListFeedFollows(s *state, cmd command, user database.User) error {
 	feeds, err := s.db.GetFeedFollowsForUser(context.Background(), user.ID)
 	if err != nil {
 		return fmt.Errorf("failed to get feeds for user - %s : %w", s.cfg.CurrentUserName, err)
