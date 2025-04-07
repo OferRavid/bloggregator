@@ -9,16 +9,6 @@ import (
 	"github.com/google/uuid"
 )
 
-func handlerAgg(s *state, cmd command) error {
-	rssFeed, err := fetchFeed(context.Background(), feedURL)
-	if err != nil {
-		return fmt.Errorf("failed to fetch feed from url: %v", feedURL)
-	}
-
-	fmt.Println(rssFeed)
-	return nil
-}
-
 func handlerAddFeed(s *state, cmd command, user database.User) error {
 	if len(cmd.Args) != 2 {
 		return fmt.Errorf("usage: %s <name> <url>", cmd.Name)
