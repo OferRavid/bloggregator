@@ -15,13 +15,7 @@ import (
 const createFeedFollow = `-- name: CreateFeedFollow :one
 WITH inserted_feed_follow AS (
     INSERT INTO feed_follows (id, created_at, updated_at, user_id, feed_id)
-    VALUES (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5
-    )
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING id, created_at, updated_at, user_id, feed_id
 )
 SELECT
