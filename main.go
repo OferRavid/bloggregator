@@ -7,8 +7,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/OferRavid/bloggregator/internal/config"
-	"github.com/OferRavid/bloggregator/internal/database"
+	"github.com/OferRavid/gator/internal/config"
+	"github.com/OferRavid/gator/internal/database"
 	_ "github.com/lib/pq"
 )
 

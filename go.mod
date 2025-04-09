@@ -1,4 +1,4 @@
-module github.com/OferRavid/bloggregator
+module github.com/OferRavid/gator
 
 go 1.23.4
 
